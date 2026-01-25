@@ -27,7 +27,7 @@ export const Home = () => {
                 {state.data.map((league) => (
                     <button
                         key={league.id}
-                        onClick={() => navigate(`/league/${league.id}`)}
+                        onClick={() => navigate(`/league/${league.id}?season=2024`)}
                         style={{
                             padding: "12px 14px",
                             borderRadius: 12,
