@@ -1,5 +1,7 @@
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useFixtures } from "../hooks/useFixtures";
+import {ErrorView} from "../components/ErrorView.tsx";
+import {friendlyError} from "../utils/errorMessage.ts";
 
 const UI = {
     pageBg: "#121212",
@@ -122,12 +124,18 @@ export const Fixtures = () => {
                 <div style={{ marginTop: 12 }}>
                     {state.status === "loading" && <div style={{ color: UI.text }}>Loading fixtures…</div>}
 
-                    {state.status === "error" && (
-                        <div>
-                            <h3 style={{ color: UI.text }}>Could not load fixtures</h3>
-                            <pre style={{ whiteSpace: "pre-wrap", color: UI.text }}>{state.error}</pre>
-                        </div>
-                    )}
+                    {state.status === "error" && (() => {
+                        const f = friendlyError(state.error);
+                        return (
+                            <ErrorView
+                                title={f.title}
+                                message={f.message}
+                                details={state.error}
+                                onRetry={() => setSearchParams({ season: String(safeSeason), round: String(safeRound) })}
+                                onBack={() => navigate(-1)}
+                            />
+                        );
+                    })()}
 
                     {state.status === "success" && (
                         <div style={{ border: `1px solid ${UI.border}`, borderRadius: 12, overflow: "hidden", background: UI.cardBg }}>

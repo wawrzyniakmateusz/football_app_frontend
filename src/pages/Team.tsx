@@ -1,5 +1,7 @@
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useTeamDetails } from "../hooks/useTeamDetails";
+import {ErrorView} from "../components/ErrorView.tsx";
+import {friendlyError} from "../utils/errorMessage.ts";
 
 const UI = {
     pageBg: "#121212",
@@ -82,12 +84,18 @@ export const Team = () => {
 
                 {state.status === "loading" && <div style={{ marginTop: 12 }}>Loading team…</div>}
 
-                {state.status === "error" && (
-                    <div style={{ marginTop: 12 }}>
-                        <h3 style={{ margin: 0 }}>Could not load team</h3>
-                        <pre style={{ whiteSpace: "pre-wrap", color: UI.text }}>{state.error}</pre>
-                    </div>
-                )}
+                {state.status === "error" && (() => {
+                    const f = friendlyError(state.error);
+                    return (
+                        <ErrorView
+                            title={f.title}
+                            message={f.message}
+                            details={state.error}
+                            onRetry={() => window.location.reload()}
+                            onBack={() => navigate(-1)}
+                        />
+                    );
+                })()}
 
                 {state.status === "success" && (
                     <>

@@ -2,6 +2,8 @@ import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { StandingsTable } from "../components/StandingsTable";
 import { useLeagueDashboard } from "../hooks/useLeagueDashboard";
 import { TopFiveTable } from "../components/TopFiveTable.tsx";
+import { ErrorView } from "../components/ErrorView";
+import { friendlyError } from "../utils/errorMessage";
 
 const UI = {
     pageBg: "#121212",
@@ -102,12 +104,18 @@ export const League = () => {
                 <div style={{ marginTop: 12 }}>
                     {state.status === "loading" && <div style={{ color: UI.text }}>Ładowanie danych…</div>}
 
-                    {state.status === "error" && (
-                        <div>
-                            <h3 style={{ color: UI.text }}>Nie udało się pobrać danych</h3>
-                            <pre style={{ whiteSpace: "pre-wrap", color: UI.text }}>{state.error}</pre>
-                        </div>
-                    )}
+                    {state.status === "error" && (() => {
+                        const f = friendlyError(state.error);
+                        return (
+                            <ErrorView
+                                title={f.title}
+                                message={f.message}
+                                details={state.error}
+                                onRetry={() => setSearchParams({ season: String(safeSeason) })}
+                                onBack={() => navigate(-1)}
+                            />
+                        );
+                    })()}
 
                     {state.status === "success" && (
                         <>

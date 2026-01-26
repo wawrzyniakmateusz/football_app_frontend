@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useFixtureStats } from "../hooks/useFixtureStats";
+import {friendlyError} from "../utils/errorMessage.ts";
+import {ErrorView} from "../components/ErrorView.tsx";
 
 const UI = {
     pageBg: "#121212",
@@ -52,12 +54,18 @@ export const FixtureDetails = ()=> {
 
                 {state.status === "loading" && <div style={{ marginTop: 12 }}>Loading stats…</div>}
 
-                {state.status === "error" && (
-                    <div style={{ marginTop: 12 }}>
-                        <h3 style={{ margin: 0 }}>Could not load match stats</h3>
-                        <pre style={{ whiteSpace: "pre-wrap" }}>{state.error}</pre>
-                    </div>
-                )}
+                {state.status === "error" && (() => {
+                    const f = friendlyError(state.error);
+                    return (
+                        <ErrorView
+                            title={f.title}
+                            message={f.message}
+                            details={state.error}
+                            onRetry={() => window.location.reload()}
+                            onBack={() => navigate(-1)}
+                        />
+                    );
+                })()}
 
                 {state.status === "success" && (
                     <div style={{ marginTop: 12, border: `1px solid ${UI.border}`, borderRadius: 12, overflow: "hidden", background: UI.cardBg }}>

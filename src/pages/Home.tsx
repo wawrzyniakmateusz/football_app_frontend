@@ -1,5 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useHomeLeagues} from "../hooks/useHomeLeagues.ts";
+import {ErrorView} from "../components/ErrorView.tsx";
+import {friendlyError} from "../utils/errorMessage.ts";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -8,11 +10,15 @@ export const Home = () => {
     if (state.status === "loading") return <div style={{ padding: 16 }}>Loading leagues...</div>;
 
     if (state.status === "error"){
+        const f = friendlyError(state.error);
         return (
-            <div style={{ padding: 16 }}>
-                <h2>You didnt make it...</h2>
-                <pre style={{ whiteSpace: "pre-wrap" }}>{state.error}</pre>
-            </div>
+            <ErrorView
+                title={f.title}
+                message={f.message}
+                details={state.error}
+                onRetry={() => window.location.reload()}
+                onBack={() => navigate(-1)}
+            />
         );
     }
 
