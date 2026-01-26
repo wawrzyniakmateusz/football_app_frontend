@@ -18,4 +18,12 @@ export const endpoints = {
 
     fixtures: (leagueId: number, season: number, roundNumber: number) =>
         `/api/fixtures/${leagueId}/${season}/Regular%20Season%20-%20${roundNumber}`,
+
+    fixtureStats: (fixtureId: number) => `/api/fixtures/stats/${fixtureId}`,
+
+    teamBasic: (teamId: number) => `/api/teams/${teamId}`,
+
+    teamStats: (teamId: number, leagueId: number, season: number) =>
+        `/api/teams/stats/${teamId}/${leagueId}/${season}`,
+
 };

@@ -1,4 +1,5 @@
 import type { StandingRow } from "../types/standings";
+import {useNavigate} from "react-router-dom";
 
 const UI = {
     cardBg: "#1f1f1f",
@@ -10,7 +11,8 @@ const UI = {
     muted: "#bdbdbd",
 };
 
-export const StandingsTable = ({ rows }: { rows: StandingRow[] }) => {
+export const StandingsTable = ({ rows, leagueId, season }: { rows: StandingRow[]; leagueId: number; season: number }) => {
+    const navigate = useNavigate()
     return (
         <div
             style={{
@@ -62,17 +64,25 @@ export const StandingsTable = ({ rows }: { rows: StandingRow[] }) => {
                             </td>
 
                             <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text }}>
-                                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                                    <img
-                                        src={r.logo}
-                                        alt={r.team}
-                                        width={22}
-                                        height={22}
-                                        style={{ display: "block" }}
-                                    />
-                                    <span style={{ fontWeight: 700 }}>{r.team}</span>
-                                </div>
+                                <button
+                                    onClick={() => navigate(`/team/${r.team_id}?leagueId=${leagueId}&season=${season}`)}
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 10,
+                                        border: "none",
+                                        background: "transparent",
+                                        color: UI.text,
+                                        cursor: "pointer",
+                                        padding: 0,
+                                        fontWeight: 700,
+                                    }}
+                                >
+                                    <img src={r.logo} alt={r.team} width={22} height={22} style={{ display: "block" }} />
+                                    <span>{r.team}</span>
+                                </button>
                             </td>
+
 
                             <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text }}>{r.played}</td>
                             <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text }}>{r.win}</td>

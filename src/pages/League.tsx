@@ -111,7 +111,7 @@ export const League = () => {
 
                     {state.status === "success" && (
                         <>
-                            <StandingsTable rows={state.data.standings} />
+                            <StandingsTable rows={state.data.standings} leagueId={lid} season={safeSeason} />
 
                             <h2 style={{ marginTop: 18, color: UI.text, fontWeight: 900 }}>Season leaders</h2>
                             <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 12 }}>

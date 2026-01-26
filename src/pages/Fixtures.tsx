@@ -22,6 +22,12 @@ function isSeason(value: number): value is Season {
 
 const DEFAULT_ROUND = 1;
 
+const getMaxRounds = (leagueId: number) => {
+    // Ligue 1 = 61, Bundesliga = 78 (Twoje ID z home_leagues)
+    if (leagueId === 61 || leagueId === 78) return 34;
+    return 38;
+}
+
 export const Fixtures = () => {
     const { leagueId } = useParams();
     const navigate = useNavigate();
@@ -34,7 +40,10 @@ export const Fixtures = () => {
     const safeSeason: Season = isSeason(seasonRaw) ? seasonRaw : DEFAULT_SEASON;
 
     const roundRaw = Number(searchParams.get("round") ?? DEFAULT_ROUND);
-    const safeRound = Number.isFinite(roundRaw) && roundRaw >= 1 && roundRaw <= 38 ? roundRaw : DEFAULT_ROUND;
+    const maxRounds = getMaxRounds(isValidLeagueId ? lid : 0);
+    const safeRound =
+        Number.isFinite(roundRaw) && roundRaw >= 1 && roundRaw <= maxRounds ? roundRaw : DEFAULT_ROUND;
+
 
     const state = useFixtures(isValidLeagueId ? lid : 0, safeSeason, safeRound);
 
@@ -101,8 +110,9 @@ export const Fixtures = () => {
                                     background: UI.cardBg,
                                 }}
                             >
-                                {Array.from({ length: 38 }, (_, i) => i + 1).map((r) => (
-                                    <option key={r} value={r}>{r}</option>
+                                {Array.from({ length: maxRounds }, (_, i) => i + 1).map((r) =>
+                                    (
+                                        <option key={r} value={r}>{r}</option>
                                 ))}
                             </select>
                         </label>
@@ -129,7 +139,7 @@ export const Fixtures = () => {
                                 <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 900 }}>
                                     <thead>
                                     <tr style={{ background: UI.headerBg }}>
-                                        {["Date", "Home", "FT", "Away", "HT", "Stadium"].map((h) => (
+                                        {["Date", "Home", "FT", "Away", "HT", "Stadium", "Details"].map((h) => (
                                             <th
                                                 key={h}
                                                 style={{
@@ -172,6 +182,29 @@ export const Fixtures = () => {
                                                 </td>
                                                 <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text }}>{m.ht_score}</td>
                                                 <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.muted }}>{m.stadium}</td>
+                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text, textAlign: "right" }}>
+                                                    <button
+                                                        onClick={() => navigate(`/fixture/${m.fixture_id}`)}
+                                                        style={{
+                                                            padding: "8px 10px",
+                                                            borderRadius: 10,
+                                                            border: `1px solid ${UI.border}`,
+                                                            background: UI.cardBg,
+                                                            color: UI.text,
+                                                            cursor: "pointer",
+                                                            fontWeight: 800,
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.currentTarget.style.background = UI.headerBg;
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.currentTarget.style.background = UI.cardBg;
+                                                        }}
+                                                    >
+                                                        Details →
+                                                    </button>
+                                                </td>
+
                                             </tr>
                                         );
                                     })}
