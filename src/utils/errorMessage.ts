@@ -3,7 +3,7 @@ export const friendlyError = (err: string) => {
     if (is502) {
         return {
             title: "Upstream API limit / temporary error",
-            message: "Zewnętrzne API chwilowo odrzuca zapytania (np. limit). Spróbuj ponownie za moment.",
+            message: "The external API is temporarily rejecting requests (e.g., limit). Please try again later.",
         };
     }
 
@@ -11,12 +11,12 @@ export const friendlyError = (err: string) => {
     if (is404) {
         return {
             title: "Not found",
-            message: "Nie znaleziono danych dla wybranych parametrów.",
+            message: "No data found for the selected parameters.",
         };
     }
 
     return {
         title: "Something went wrong",
-        message: "Wystąpił błąd podczas pobierania danych.",
+        message: "An error occurred while downloading data.",
     };
 }

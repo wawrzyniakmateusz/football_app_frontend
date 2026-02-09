@@ -1,15 +1,18 @@
-import {useNavigate} from "react-router-dom";
-import {useHomeLeagues} from "../hooks/useHomeLeagues.ts";
-import {ErrorView} from "../components/ErrorView.tsx";
-import {friendlyError} from "../utils/errorMessage.ts";
+import { useNavigate } from "react-router-dom";
+import { useHomeLeagues } from "../hooks/useHomeLeagues.ts";
+import { ErrorView } from "../components/ErrorView.tsx";
+import { friendlyError } from "../utils/errorMessage.ts";
+import styles from "./Home.module.css";
 
 export const Home = () => {
     const navigate = useNavigate();
     const state = useHomeLeagues();
 
-    if (state.status === "loading") return <div style={{ padding: 16 }}>Loading leagues...</div>;
+    if (state.status === "loading") {
+        return <div className={styles.loading}>Loading leagues...</div>;
+    }
 
-    if (state.status === "error"){
+    if (state.status === "error") {
         const f = friendlyError(state.error);
         return (
             <ErrorView
@@ -23,31 +26,22 @@ export const Home = () => {
     }
 
     return (
-        <div style={{ padding: 16, maxWidth: 720, margin: "0 auto" }}>
-            <h1 style={{ marginBottom: 8 }}>Football App</h1>
-            <p style={{ marginTop: 0, marginBottom: 16 }}>
-                Choose league (Europe top 5):
-            </p>
+        <div className={styles.wrapper}>
+            <h1 className={styles.title}>Football App</h1>
+            <p className={styles.subtitle}>Choose league (Europe top 5):</p>
 
-            <div style={{ display: "grid", gap: 12 }}>
+            <div className={styles.grid}>
                 {state.data.map((league) => (
                     <button
                         key={league.id}
                         onClick={() => navigate(`/league/${league.id}?season=2024`)}
-                        style={{
-                            padding: "12px 14px",
-                            borderRadius: 12,
-                            border: "1px solid #ddd",
-                            background: "white",
-                            cursor: "pointer",
-                            textAlign: "center",
-                            color: "black"
-                        }}
+                        className={styles.leagueButton}
+                        type="button"
                     >
-                        <div style={{ fontSize: 16, fontWeight: 600 }}>{league.name}</div>
+                        <div className={styles.leagueName}>{league.name}</div>
                     </button>
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};

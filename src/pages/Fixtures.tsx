@@ -1,21 +1,11 @@
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useFixtures } from "../hooks/useFixtures";
-import {ErrorView} from "../components/ErrorView.tsx";
-import {friendlyError} from "../utils/errorMessage.ts";
-
-const UI = {
-    pageBg: "#121212",
-    cardBg: "#1f1f1f",
-    headerBg: "#2a2a2a",
-    rowA: "#1f1f1f",
-    rowB: "#232323",
-    border: "#333",
-    text: "#f5f5f5",
-    muted: "#bdbdbd",
-};
+import { ErrorView } from "../components/ErrorView";
+import { friendlyError } from "../utils/errorMessage";
+import styles from "./Fixtures.module.css";
 
 const SEASONS = [2022, 2023, 2024] as const;
-type Season = typeof SEASONS[number];
+type Season = (typeof SEASONS)[number];
 const DEFAULT_SEASON: Season = 2024;
 
 function isSeason(value: number): value is Season {
@@ -25,10 +15,9 @@ function isSeason(value: number): value is Season {
 const DEFAULT_ROUND = 1;
 
 const getMaxRounds = (leagueId: number) => {
-    // Ligue 1 = 61, Bundesliga = 78 (Twoje ID z home_leagues)
     if (leagueId === 61 || leagueId === 78) return 34;
     return 38;
-}
+};
 
 export const Fixtures = () => {
     const { leagueId } = useParams();
@@ -43,122 +32,98 @@ export const Fixtures = () => {
 
     const roundRaw = Number(searchParams.get("round") ?? DEFAULT_ROUND);
     const maxRounds = getMaxRounds(isValidLeagueId ? lid : 0);
-    const safeRound =
-        Number.isFinite(roundRaw) && roundRaw >= 1 && roundRaw <= maxRounds ? roundRaw : DEFAULT_ROUND;
-
+    const safeRound = Number.isFinite(roundRaw) && roundRaw >= 1 && roundRaw <= maxRounds ? roundRaw : DEFAULT_ROUND;
 
     const state = useFixtures(isValidLeagueId ? lid : 0, safeSeason, safeRound);
 
     if (!isValidLeagueId) {
         return (
-            <div style={{ minHeight: "100vh", background: UI.pageBg, color: UI.text, padding: 16 }}>
+            <div className={styles.page}>
                 <p>Incorrect leagueId.</p>
-                <Link to="/" style={{ color: UI.text }}>← Back</Link>
+                <Link to="/" className={styles.backButton}>
+                    ← Back
+                </Link>
             </div>
         );
     }
 
     return (
-        <div style={{ minHeight: "100vh", background: UI.pageBg, color: UI.text, padding: 16 }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <div className={styles.page}>
+            <div className={styles.container}>
+                <div className={styles.topbar}>
                     <div>
                         <button
+                            type="button"
                             onClick={() => navigate(`/league/${lid}?season=${safeSeason}`)}
-                            style={{
-                                border: "none",
-                                background: "transparent",
-                                cursor: "pointer",
-                                padding: 0,
-                                color: UI.text,
-                                fontWeight: 700,
-                            }}
+                            className={styles.backButton}
                         >
                             ← Standings
                         </button>
-                        <h1 style={{ margin: "8px 0 0", color: UI.text, fontWeight: 900 }}>Fixtures</h1>
+                        <h1 className={styles.title}>Fixtures</h1>
                     </div>
 
-                    <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                        <label style={{ display: "flex", gap: 8, alignItems: "center", color: UI.text, fontWeight: 700 }}>
+                    <div className={styles.filters}>
+                        <label className={styles.label}>
                             <span>Season</span>
                             <select
                                 value={safeSeason}
                                 onChange={(e) => setSearchParams({ season: e.target.value, round: String(safeRound) })}
-                                style={{
-                                    padding: "8px 10px",
-                                    borderRadius: 10,
-                                    border: `1px solid ${UI.border}`,
-                                    color: UI.text,
-                                    background: UI.cardBg,
-                                }}
+                                className={styles.select}
                             >
                                 {SEASONS.map((s) => (
-                                    <option key={s} value={s}>{s}</option>
+                                    <option key={s} value={s}>
+                                        {s}
+                                    </option>
                                 ))}
                             </select>
                         </label>
 
-                        <label style={{ display: "flex", gap: 8, alignItems: "center", color: UI.text, fontWeight: 700 }}>
+                        <label className={styles.label}>
                             <span>Round</span>
                             <select
                                 value={safeRound}
                                 onChange={(e) => setSearchParams({ season: String(safeSeason), round: e.target.value })}
-                                style={{
-                                    padding: "8px 10px",
-                                    borderRadius: 10,
-                                    border: `1px solid ${UI.border}`,
-                                    color: UI.text,
-                                    background: UI.cardBg,
-                                }}
+                                className={styles.select}
                             >
-                                {Array.from({ length: maxRounds }, (_, i) => i + 1).map((r) =>
-                                    (
-                                        <option key={r} value={r}>{r}</option>
+                                {Array.from({ length: maxRounds }, (_, i) => i + 1).map((r) => (
+                                    <option key={r} value={r}>
+                                        {r}
+                                    </option>
                                 ))}
                             </select>
                         </label>
                     </div>
                 </div>
 
-                <div style={{ marginTop: 12 }}>
-                    {state.status === "loading" && <div style={{ color: UI.text }}>Loading fixtures…</div>}
+                <div className={styles.content}>
+                    {state.status === "loading" && <div className={styles.loading}>Loading fixtures…</div>}
 
-                    {state.status === "error" && (() => {
-                        const f = friendlyError(state.error);
-                        return (
-                            <ErrorView
-                                title={f.title}
-                                message={f.message}
-                                details={state.error}
-                                onRetry={() => setSearchParams({ season: String(safeSeason), round: String(safeRound) })}
-                                onBack={() => navigate(-1)}
-                            />
-                        );
-                    })()}
+                    {state.status === "error" &&
+                        (() => {
+                            const f = friendlyError(state.error);
+                            return (
+                                <ErrorView
+                                    title={f.title}
+                                    message={f.message}
+                                    details={state.error}
+                                    onRetry={() => setSearchParams({ season: String(safeSeason), round: String(safeRound) })}
+                                    onBack={() => navigate(-1)}
+                                />
+                            );
+                        })()}
 
                     {state.status === "success" && (
-                        <div style={{ border: `1px solid ${UI.border}`, borderRadius: 12, overflow: "hidden", background: UI.cardBg }}>
-                            <div style={{ padding: 12, background: UI.headerBg, borderBottom: `1px solid ${UI.border}`, color: UI.text, fontWeight: 900 }}>
+                        <div className={styles.card}>
+                            <div className={styles.cardHeader}>
                                 Regular Season - {safeRound} ({safeSeason})
                             </div>
 
-                            <div style={{ overflowX: "auto" }}>
-                                <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 900 }}>
+                            <div className={styles.tableWrap}>
+                                <table className={styles.table}>
                                     <thead>
-                                    <tr style={{ background: UI.headerBg }}>
+                                    <tr className={styles.thRow}>
                                         {["Date", "Home", "FT", "Away", "HT", "Stadium", "Details"].map((h) => (
-                                            <th
-                                                key={h}
-                                                style={{
-                                                    textAlign: "left",
-                                                    padding: 10,
-                                                    borderBottom: `1px solid ${UI.border}`,
-                                                    color: UI.text,
-                                                    fontWeight: 800,
-                                                    fontSize: 13,
-                                                }}
-                                            >
+                                            <th key={h} className={styles.th}>
                                                 {h}
                                             </th>
                                         ))}
@@ -166,56 +131,28 @@ export const Fixtures = () => {
                                     </thead>
 
                                     <tbody>
-                                    {state.data.map((m, idx) => {
-                                        const bg = idx % 2 === 0 ? UI.rowA : UI.rowB;
-
-                                        return (
-                                            <tr
-                                                key={m.fixture_id}
-                                                style={{ background: bg }}
-                                                onMouseEnter={(e) => {
-                                                    e.currentTarget.style.background = "#2f3a46";
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    e.currentTarget.style.background = bg;
-                                                }}
-                                            >
-                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.muted }}>{m.date}</td>
-                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text, fontWeight: 800 }}>
-                                                    {m.home_team}
-                                                </td>
-                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text }}>{m.ft_score}</td>
-                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text, fontWeight: 800 }}>
-                                                    {m.away_team}
-                                                </td>
-                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text }}>{m.ht_score}</td>
-                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.muted }}>{m.stadium}</td>
-                                                <td style={{ padding: 10, borderBottom: `1px solid ${UI.border}`, color: UI.text, textAlign: "right" }}>
-                                                    <button
-                                                        onClick={() => navigate(`/fixture/${m.fixture_id}`)}
-                                                        style={{
-                                                            padding: "8px 10px",
-                                                            borderRadius: 10,
-                                                            border: `1px solid ${UI.border}`,
-                                                            background: UI.cardBg,
-                                                            color: UI.text,
-                                                            cursor: "pointer",
-                                                            fontWeight: 800,
-                                                        }}
-                                                        onMouseEnter={(e) => {
-                                                            e.currentTarget.style.background = UI.headerBg;
-                                                        }}
-                                                        onMouseLeave={(e) => {
-                                                            e.currentTarget.style.background = UI.cardBg;
-                                                        }}
-                                                    >
-                                                        Details →
-                                                    </button>
-                                                </td>
-
-                                            </tr>
-                                        );
-                                    })}
+                                    {state.data.map((m, idx) => (
+                                        <tr
+                                            key={m.fixture_id}
+                                            className={`${styles.tr} ${idx % 2 === 0 ? styles.tr : styles.trAlt}`}
+                                        >
+                                            <td className={`${styles.td} ${styles.muted}`}>{m.date}</td>
+                                            <td className={`${styles.td} ${styles.strong}`}>{m.home_team}</td>
+                                            <td className={`${styles.td} ${styles.text}`}>{m.ft_score}</td>
+                                            <td className={`${styles.td} ${styles.strong}`}>{m.away_team}</td>
+                                            <td className={`${styles.td} ${styles.text}`}>{m.ht_score}</td>
+                                            <td className={`${styles.td} ${styles.muted}`}>{m.stadium}</td>
+                                            <td className={`${styles.td} ${styles.right}`}>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => navigate(`/fixture/${m.fixture_id}`)}
+                                                    className={styles.button}
+                                                >
+                                                    Details →
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </table>
                             </div>

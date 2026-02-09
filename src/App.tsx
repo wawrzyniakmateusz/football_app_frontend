@@ -5,6 +5,7 @@ import {Fixtures} from "./pages/Fixtures.tsx";
 import {FixtureDetails} from "./pages/FixtureDetails.tsx";
 import {Team} from "./pages/Team.tsx";
 import {AppLayout} from "./layouts/AppLayout.tsx";
+import styles from "./App.module.css"
 
 
 
@@ -12,7 +13,7 @@ import {AppLayout} from "./layouts/AppLayout.tsx";
 
 export const App = () => {
     return (
-        <div>
+        <div className={styles.app}>
             <Routes>
                 <Route path="/" element={<AppLayout><Home /></AppLayout>} />
                 <Route path="/league/:leagueId" element={<AppLayout><League /></AppLayout>} />

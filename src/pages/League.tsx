@@ -1,21 +1,13 @@
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { StandingsTable } from "../components/StandingsTable";
 import { useLeagueDashboard } from "../hooks/useLeagueDashboard";
-import { TopFiveTable } from "../components/TopFiveTable.tsx";
+import { TopFiveTable } from "../components/TopFiveTable";
 import { ErrorView } from "../components/ErrorView";
 import { friendlyError } from "../utils/errorMessage";
-
-const UI = {
-    pageBg: "#121212",
-    cardBg: "#1f1f1f",
-    headerBg: "#2a2a2a",
-    border: "#333",
-    text: "#f5f5f5",
-    muted: "#bdbdbd",
-};
+import styles from "./League.module.css";
 
 const SEASONS = [2022, 2023, 2024] as const;
-type Season = typeof SEASONS[number];
+type Season = (typeof SEASONS)[number];
 const DEFAULT_SEASON: Season = 2024;
 
 const isSeason = (value: number): value is Season => SEASONS.includes(value as Season);
@@ -31,44 +23,37 @@ export const League = () => {
     const seasonRaw = Number(searchParams.get("season") ?? DEFAULT_SEASON);
     const safeSeason: Season = isSeason(seasonRaw) ? seasonRaw : DEFAULT_SEASON;
 
-    // hook zawsze wywołany (rules of hooks)
     const state = useLeagueDashboard(isValidLeagueId ? lid : 0, safeSeason);
 
     if (!isValidLeagueId) {
         return (
-            <div style={{ minHeight: "100vh", background: UI.pageBg, color: UI.text, padding: 16 }}>
-                <p>Niepoprawne leagueId.</p>
-                <Link to="/" style={{ color: UI.text }}>
-                    ← wróć
+            <div className={styles.page}>
+                <p>Incorrect leagueId.</p>
+                <Link to="/" className={styles.backLink}>
+                    ← Back
                 </Link>
             </div>
         );
     }
 
     return (
-        <div style={{ minHeight: "100vh", background: UI.pageBg, color: UI.text, padding: 16 }}>
-            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                    <div>
-                        <Link to="/" style={{ textDecoration: "none", color: UI.text, fontWeight: 700 }}>
+        <div className={styles.page}>
+            <div className={styles.container}>
+                <div className={styles.topbar}>
+                    <div className={styles.left}>
+                        <Link to="/" className={styles.backLink}>
                             ← Home
                         </Link>
-                        <h1 style={{ margin: "8px 0 0", color: UI.text, fontWeight: 900 }}>Standings</h1>
+                        <h1 className={styles.title}>Standings</h1>
                     </div>
 
-                    <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                        <label style={{ display: "flex", gap: 8, alignItems: "center", color: UI.text, fontWeight: 700 }}>
+                    <div className={styles.actions}>
+                        <label className={styles.seasonLabel}>
                             <span>Season</span>
                             <select
                                 value={safeSeason}
                                 onChange={(e) => setSearchParams({ season: e.target.value })}
-                                style={{
-                                    padding: "8px 10px",
-                                    borderRadius: 10,
-                                    border: `1px solid ${UI.border}`,
-                                    color: UI.text,
-                                    background: UI.cardBg,
-                                }}
+                                className={styles.select}
                             >
                                 {SEASONS.map((s) => (
                                     <option key={s} value={s}>
@@ -79,30 +64,17 @@ export const League = () => {
                         </label>
 
                         <button
+                            type="button"
                             onClick={() => navigate(`/league/${lid}/fixtures?season=${safeSeason}`)}
-                            style={{
-                                padding: "10px 12px",
-                                borderRadius: 12,
-                                border: `1px solid ${UI.border}`,
-                                background: UI.cardBg,
-                                color: UI.text,
-                                cursor: "pointer",
-                                fontWeight: 800,
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.background = UI.headerBg;
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.background = UI.cardBg;
-                            }}
+                            className={styles.button}
                         >
                             Fixtures →
                         </button>
                     </div>
                 </div>
 
-                <div style={{ marginTop: 12 }}>
-                    {state.status === "loading" && <div style={{ color: UI.text }}>Ładowanie danych…</div>}
+                <div className={styles.content}>
+                    {state.status === "loading" && <div className={styles.loading}>Loading data...</div>}
 
                     {state.status === "error" && (() => {
                         const f = friendlyError(state.error);
@@ -121,15 +93,15 @@ export const League = () => {
                         <>
                             <StandingsTable rows={state.data.standings} leagueId={lid} season={safeSeason} />
 
-                            <h2 style={{ marginTop: 18, color: UI.text, fontWeight: 900 }}>Season leaders</h2>
-                            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 12 }}>
+                            <h2 className={styles.sectionTitle}>Season leaders</h2>
+                            <div className={styles.grid}>
                                 <TopFiveTable title="Top 5 scorers" rows={state.data.scorers} />
                                 <TopFiveTable title="Top 5 assists" rows={state.data.assists} />
                                 <TopFiveTable title="Top 5 yellow cards" rows={state.data.yellow} />
                                 <TopFiveTable title="Top 5 red cards" rows={state.data.red} />
                             </div>
 
-                            <div style={{ marginTop: 10, color: UI.muted, fontSize: 12 }}>
+                            <div className={styles.meta}>
                                 League ID: {lid} • Season: {safeSeason}
                             </div>
                         </>
