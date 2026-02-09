@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router-dom";
+import {Home} from "./pages/Home.tsx";
+import {League} from "./pages/League.tsx";
+import {Fixtures} from "./pages/Fixtures.tsx";
+import {FixtureDetails} from "./pages/FixtureDetails.tsx";
+import {Team} from "./pages/Team.tsx";
+import {AppLayout} from "./layouts/AppLayout.tsx";
+import styles from "./App.module.css"
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+
+
+export const App = () => {
+    return (
+        <div className={styles.app}>
+            <Routes>
+                <Route path="/" element={<AppLayout><Home /></AppLayout>} />
+                <Route path="/league/:leagueId" element={<AppLayout><League /></AppLayout>} />
+                <Route path="/league/:leagueId/fixtures" element={<AppLayout><Fixtures /></AppLayout>} />
+                <Route path="/fixture/:fixtureId" element={<AppLayout><FixtureDetails /></AppLayout>} />
+                <Route path="/team/:teamId" element={<AppLayout><Team /></AppLayout>} />
+            </Routes>
+        </div>
+    );
 }
-
-export default App

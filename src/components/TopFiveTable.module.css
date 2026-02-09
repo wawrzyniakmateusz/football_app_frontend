@@ -1,0 +1,109 @@
+.card {
+    border: 1px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1f1f1f;
+}
+
+.header {
+    padding: 12px;
+    font-weight: 900;
+    background: #2a2a2a;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    text-align: center;
+    letter-spacing: 0.2px;
+}
+
+.tableWrap {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 420px;
+}
+
+.thRow {
+    background: #2a2a2a;
+}
+
+.thLeft {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.thRight {
+    text-align: right;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.tr {
+    background: #1f1f1f;
+}
+
+.trAlt {
+    background: #232323;
+}
+
+.tr:hover {
+    background: #2f3a46;
+}
+
+.td {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+}
+
+.tdMuted {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #bdbdbd;
+    font-weight: 600;
+}
+
+.tdRightStrong {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    text-align: right;
+    color: #f5f5f5;
+    font-weight: 900;
+}
+
+.playerRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.playerMeta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.playerName {
+    font-weight: 700;
+}
+
+.clubLogo {
+    width: 18px;
+    height: 18px;
+}

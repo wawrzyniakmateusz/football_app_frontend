@@ -1,0 +1,148 @@
+.page {
+    min-height: 100vh;
+    background: #121212;
+    color: #f5f5f5;
+    padding: 16px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.backLink {
+    border: none;
+    background: transparent;
+    color: #f5f5f5;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 0;
+}
+
+.backButtonCard {
+    border: 1px solid #333;
+    background: #1f1f1f;
+    color: #f5f5f5;
+    padding: 8px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.topbar {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.title {
+    margin: 0;
+    font-weight: 900;
+}
+
+.seasonLabel {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: #f5f5f5;
+    font-weight: 700;
+}
+
+.select {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    color: #f5f5f5;
+    background: #1f1f1f;
+}
+
+.loading {
+    margin-top: 12px;
+}
+
+.card {
+    margin-top: 12px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1f1f1f;
+}
+
+.cardHeader {
+    background: #2a2a2a;
+    padding: 12px;
+    border-bottom: 1px solid #333;
+}
+
+.basicHeaderRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.teamName {
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.muted {
+    color: #bdbdbd;
+    font-size: 13px;
+}
+
+.cardBody2 {
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.label {
+    color: #bdbdbd;
+    font-size: 12px;
+}
+
+.valueStrong {
+    font-weight: 800;
+}
+
+.statsHeaderTitle {
+    font-weight: 900;
+}
+
+.cardBody3 {
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.statBox {
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 12px;
+    background: #1a1a1a;
+}
+
+.statValue {
+    font-weight: 900;
+    font-size: 18px;
+}
+
+@media (max-width: 720px) {
+    .topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cardBody3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 420px) {
+    .cardBody3 {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,105 @@
+.page {
+    min-height: 100vh;
+    background: #121212;
+    color: #f5f5f5;
+    padding: 16px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.backButton {
+    border: none;
+    background: transparent;
+    color: #f5f5f5;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 0;
+}
+
+.title {
+    margin: 10px 0 0;
+    font-weight: 900;
+}
+
+.loading {
+    margin-top: 12px;
+}
+
+.card {
+    margin-top: 12px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1f1f1f;
+}
+
+.cardHeader {
+    background: #2a2a2a;
+    padding: 12px;
+    border-bottom: 1px solid #333;
+}
+
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.matchTitle {
+    font-weight: 900;
+}
+
+.meta {
+    color: #bdbdbd;
+    font-size: 12px;
+}
+
+.tableWrap {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 520px;
+}
+
+.thRow {
+    background: #2a2a2a;
+}
+
+.thLeft {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.thRight {
+    padding: 10px;
+    text-align: right;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.tdLabel {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #bdbdbd;
+}
+
+.tdValue {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    font-weight: 800;
+    text-align: right;
+}

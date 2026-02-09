@@ -1,73 +1,98 @@
-# React + TypeScript + Vite
+# 🏟️ Football App – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A football statistics web application built as a **portfolio project**.  
+The app allows users to browse football leagues, standings, fixtures, teams, and detailed match statistics.
 
-Currently, two official plugins are available:
+The main focus of this project is **clean frontend architecture**, working with real-world data, and maintaining readable, scalable UI code.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- Browse top European football leagues
+- League standings with recent form visualization
+- Fixtures by season and round
+- Team details with season statistics
+- Match details with advanced stats (xG, possession, shots, cards, etc.)
+- Unified loading and error handling states
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧱 Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Frontend
+- React
+- TypeScript
+- React Router
+- CSS Modules
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Backend
+- Python
+- Flask
+- Pydantic
+- External football data API
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+> This repository contains the **frontend** part of the application.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📸 Screenshots
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Create a folder in the root of the repository:
+
+/screenshots
+
+Then add screenshots and reference them below:
+
+### Home – League Selection
+![Home](src/screenshots/home.png)
+
+### League Standings
+![Standings](src/screenshots/standings.png)
+
+### Fixtures
+![Fixtures](src/screenshots/fixtures.png)
+
+### Team Details
+![Team](src/screenshots/team.png)
+
+### Match Details
+![Match Details](src/screenshots/fixture-details.png)
+
+**Recommended:**
+- fullscreen browser
+- dark UI
+- data fully loaded (no loading states)
+- localhost URL is acceptable
+
+---
+
+## 🧠 Architecture Notes
+
+- All components use **CSS Modules** (no inline styles)
+- Styling is fully separated from business logic
+- Shared helpers are extracted into a `utils` directory
+- Pages are wrapped with a common layout component
+- Error handling is unified via a reusable `ErrorView` component
+- Tables and views are designed with scalability and readability in mind
+
+---
+
+## 🔗 Related Repositories
+
+- Backend API:  
+  https://github.com/wawrzyniakmateusz/football_app_backend
+
+---
+
+## 📌 Project Status
+
+This project was developed as a **portfolio application**.  
+Further UI refinements and feature improvements may be added in the future.
+
+---
+
+## 💬 Why this project?
+
+This application was created to practice working with **real-world sports data**, routing, and complex UI states.  
+The focus was not only on delivering features, but also on **code quality, maintainability, and clean project structure**.

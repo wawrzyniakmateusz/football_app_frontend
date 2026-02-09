@@ -1,0 +1,167 @@
+.page {
+    min-height: 100vh;
+    background: #121212;
+    color: #f5f5f5;
+    padding: 16px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.backButton {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    color: #f5f5f5;
+    font-weight: 700;
+}
+
+.title {
+    margin: 8px 0 0;
+    color: #f5f5f5;
+    font-weight: 900;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: #f5f5f5;
+    font-weight: 700;
+}
+
+.select {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    color: #f5f5f5;
+    background: #1f1f1f;
+}
+
+.content {
+    margin-top: 12px;
+}
+
+.loading {
+    color: #f5f5f5;
+}
+
+.card {
+    border: 1px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1f1f1f;
+}
+
+.cardHeader {
+    padding: 12px;
+    background: #2a2a2a;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    font-weight: 900;
+}
+
+.tableWrap {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+.thRow {
+    background: #2a2a2a;
+}
+
+.th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #f5f5f5;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.tr {
+    background: #1f1f1f;
+}
+
+.trAlt {
+    background: #232323;
+}
+
+.tr:hover {
+    background: #2f3a46;
+}
+
+.td {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.muted {
+    color: #bdbdbd;
+}
+
+.strong {
+    color: #f5f5f5;
+    font-weight: 800;
+}
+
+.text {
+    color: #f5f5f5;
+}
+
+.right {
+    text-align: right;
+}
+
+.button {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #1f1f1f;
+    color: #f5f5f5;
+    cursor: pointer;
+    font-weight: 800;
+    transition: background 120ms ease, transform 120ms ease;
+}
+
+.button:hover {
+    background: #2a2a2a;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+    .topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filters {
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .table {
+        min-width: 760px;
+    }
+}
